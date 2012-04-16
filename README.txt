@@ -1,3 +1,6 @@
+NOTE 2.2.1 is no longer a supported version of Jython, see headrevs.
+As of April 2012 the latest/next release is 2.5.x.
+
 Welcome to Jython 2.2.1
 =======================
 This is the 2.2.1 release of Jython, an implementation of the Python
