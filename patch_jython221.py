@@ -7,6 +7,7 @@ and injects new files for additional features. Viz.:
 
   * Windows 7 support
   * Python 2.3 logging support
+  * Python 2.3 decimal support
 
 NOTE this packaging/patch script currently requires CPython.
 """
@@ -57,6 +58,7 @@ def doit(orig_jar, dest_jar):
     
     # Add back ported modules for convenience
     add_to_existing_zip(dest_jar, [os.path.join('lib-python', 'compat', 'logging')], 'Lib')
+    add_to_existing_zip(dest_jar, [os.path.join('lib-python', 'compat', 'decimal.py')], 'Lib')
 
 
 def main(argv=None):
