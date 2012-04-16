@@ -152,8 +152,13 @@ def _getOsType( os=None ):
                 break
         if foundType:
             break
+    # Chris Clark custom change, see Jython post 2012-01-09 Subject: Jython 2.2 and Windows 7
     if not foundType:
-        foundType = "posix" # default - posix seems to vary most widely
+        if 'windows' in os.lower():
+            foundType = "nt"
+        else:
+            foundType = "posix"  # default - posix seems to vary most widely
+    # End custom change
 
     return foundType
 
