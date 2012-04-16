@@ -50,6 +50,7 @@ def doit(orig_jar, dest_jar):
     """
     shutil.copy(orig_jar, dest_jar)
     
+    add_to_existing_zip(dest_jar, [os.path.join('Lib', 'javashell.py')], 'Lib')
     add_to_existing_zip(dest_jar, [os.path.join('lib-python', 'compat', 'logging')], 'Lib')
 
 
