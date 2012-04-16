@@ -50,7 +50,12 @@ def doit(orig_jar, dest_jar):
     """
     shutil.copy(orig_jar, dest_jar)
     
+    # patch Windows 7 support.
+    # NOTE this results in duplicate javashell.py entries
+    # TODO copy each file from orig zip missing the files to delete/skip
     add_to_existing_zip(dest_jar, [os.path.join('Lib', 'javashell.py')], 'Lib')
+    
+    # Add back ported modules for convenience
     add_to_existing_zip(dest_jar, [os.path.join('lib-python', 'compat', 'logging')], 'Lib')
 
 
