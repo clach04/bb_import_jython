@@ -8,6 +8,7 @@ and injects new files for additional features. Viz.:
   * Windows 7 support
   * Python 2.3 logging support
   * Python 2.3 decimal support
+  * Python 2.3 optparse/optik support
 
 NOTE this packaging/patch script currently requires CPython.
 """
@@ -59,6 +60,9 @@ def doit(orig_jar, dest_jar):
     # Add back ported modules for convenience
     add_to_existing_zip(dest_jar, [os.path.join('lib-python', 'compat', 'logging')], 'Lib')
     add_to_existing_zip(dest_jar, [os.path.join('lib-python', 'compat', 'decimal.py')], 'Lib')
+    
+    add_to_existing_zip(dest_jar, [os.path.join('lib-python', 'compat', 'optparse.py')], 'Lib')
+    add_to_existing_zip(dest_jar, [os.path.join('lib-python', 'compat', 'optik')], 'Lib')
 
 
 def main(argv=None):
