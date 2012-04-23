@@ -10,7 +10,25 @@ and injects new files for additional features. Viz.:
   * Python 2.3 decimal support
   * Python 2.3 optparse/optik support
 
-NOTE this packaging/patch script currently requires CPython.
+NOTE this packaging/patch script currently requires CPython (2.4 works).
+If Jython 2.2 is used to inject files (e.g for "import decimal"), get error:
+
+    ImportError: error loading from zipfile
+
+using debug:
+
+    echo import decimal | java -jar patched_jython221.jar -Dpython.verbose=debug -
+
+get:
+
+    import: trying source C:\Users\clach04\decimal
+    import: trying precompiled with no sourceC:\Users\clach04\decimal$py.class
+    import: trying source entry: decimal.py from jar/zip file C:\jython2.2.1\patched_jython221.jar\Lib
+    import: loadFromZipFile exception: java.util.zip.ZipException: invalid stored block lengths
+    Traceback (innermost last):
+      File "<stdin>", line 1, in ?
+    ImportError: error loading from zipfile
+
 """
 
 import os
@@ -31,7 +49,7 @@ def add_to_zip(zf, path, zippath):
         for nm in os.listdir(path):
             add_to_zip(zf, os.path.join(path, nm), os.path.join(zippath, nm))
     else:
-        raise NotImplementedError('unknown file type')
+        raise NotImplementedError('missing (or unknown file type for) %s' % path)
 
 def add_to_existing_zip(zipfilename, filelist, dest_dir=''):
     if hasattr(zipfile, 'ZIP64_LIMIT'):
@@ -52,10 +70,12 @@ def doit(orig_jar, dest_jar):
     """
     shutil.copy(orig_jar, dest_jar)
     
-    # patch Windows 7 support.
+    # injext updated files.
+    # e.g. Windows 7 support and shlex.split()
     # NOTE this results in duplicate javashell.py entries
     # TODO copy each file from orig zip missing the files to delete/skip
     add_to_existing_zip(dest_jar, [os.path.join('Lib', 'javashell.py')], 'Lib')
+    add_to_existing_zip(dest_jar, [os.path.join('lib-python', '2.2', 'shlex.py')], 'Lib')
     
     # Add back ported modules for convenience
     add_to_existing_zip(dest_jar, [os.path.join('lib-python', 'compat', 'logging')], 'Lib')
